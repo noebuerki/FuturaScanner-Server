@@ -1,7 +1,7 @@
-import socket
-from SecondaryFunctions import *
-from time import sleep
 import os.path
+import socket
+
+from SecondaryFunctions import *
 
 tryScore = 0
 inputsData = ["1", "2", "X", "x"]
@@ -33,7 +33,8 @@ def startServer():
     serverSocket.bind((socket.gethostbyname(socket.gethostname()), 9090))
     serverSocket.listen()
     serverSocket.settimeout(1)  # Socket Timeout, somit funktioniert Keyboardinterrupt
-    print("Der Server ist erfolgreich auf der Ip " + str(socket.gethostbyname(socket.gethostname())) + " gestartet\nZum beenden: CTRL + C\n")
+    print("Der Server ist erfolgreich auf der Ip " + str(
+        socket.gethostbyname(socket.gethostname())) + " gestartet\nZum beenden: CTRL + C\n")
     while Interrupt == False:
         try:
             try:  # Daten empfangen
@@ -85,7 +86,7 @@ def convertRawData():
     MyFinalWriteFile = open("Daten\Work\Output.txt", "a")
     Date = formatDate()
     Time = str(datetime.datetime.now().strftime("%H:%M:%S"))
-    MyFinalWriteFile.write("RT00\n1\t\t" + Date + "\t" + Time + "\t2\nRT38\n")  # Schreibt Header ins File
+    MyFinalWriteFile.write("RT00\n1\t\t" + Date + "\t" + Time + "\t2\t\nRT38\n")  # Schreibt Header ins File
     for line in MyRawReadFile:  # Schreibt Daten Linie für Linie
         combined = line.split(";")
         EAN = combined[0]
@@ -97,7 +98,7 @@ def convertRawData():
         NummerWrongList.remove("\n")
         Nummer = "".join(NummerWrongList)
         MyFinalWriteFile.write(
-            EAN + "\t0\t" + Filiale + "\t" + Datum + "\t" + Block + "\t" + Nummer + "\t1,00\t0\t0\t\t0\t0\t0\t0\t0\n")
+            EAN + "\t0\t" + Filiale + "\t" + Datum + "\t" + Block + "\t" + Nummer + "\t1,00\t0\t0\t\t0\t0\t0\t0\t0\t\t\n")
     MyFinalWriteFile.write("\n")  # Abschlussklausel
     MyFinalWriteFile.flush()
     MyRawReadFile.close()  # Alle Dateien schliessen

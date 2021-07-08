@@ -1,9 +1,8 @@
-from time import sleep
-from os import system
-import os.path
-import getpass
 import datetime
 import os.path
+import os.path
+from os import system
+from time import sleep
 
 inputsconfirmation = ["Y", "y", "N", "n"]
 
@@ -133,7 +132,7 @@ def restoreBackup():
         print("Diese Angabe ist falsch! Veruschen Sie es noch einmal.")
         system('cls')
         return False
-        
+
 
 def helpStartServer():
     print("Wie starte ich den Server?")
