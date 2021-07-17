@@ -10,18 +10,18 @@ Interrupt = False
 
 # Generiert Ausgabefiles, wenn nicht vorhanden
 def fileGenerator():
-    if os.path.isdir("Daten") == False:
+    if not os.path.isdir("Daten"):
         os.mkdir("Daten")
-    if os.path.isdir("Daten\Backup") == False:
+    if not os.path.isdir("Daten\Backup"):
         os.mkdir("Daten\Backup")
-    if os.path.isdir("Daten\Backup\History") == False:
+    if not os.path.isdir("Daten\Backup\History"):
         os.mkdir("Daten\Backup\History")
-    if os.path.isdir("Daten\Work") == False:
+    if not os.path.isdir("Daten\Work"):
         os.mkdir("Daten\Work")
-    if os.path.isfile("Daten\Raw.txt") == False:
+    if not os.path.isfile("Daten\Raw.txt"):
         CreateRaw = open("Daten\Work\Raw.txt", "w+")
         CreateRaw.close()
-    if os.path.isfile("Daten\Output.txt") == False:
+    if not os.path.isfile("Daten\Output.txt"):
         CreateFinal = open("Daten\Work\Output.txt", "w+")
         CreateFinal.close()
 
@@ -42,10 +42,11 @@ def startServer():
                 dataFromClient = clientConnected.recv(70000)  # Hier Grösse (MTU) anpassen
                 rawData = dataFromClient.decode()
                 if rawData == "100":
-                    clientConnected.send("101".encode())
+                    clientConnected.send("101\n".encode())
                     print("%s:%s hat die Verbindung getestet" % (clientAddress[0], clientAddress[1]))
                 else:
-                    clientConnected.send("200".encode())
+
+                    clientConnected.send(("200;" + str(rawData.count("\n")) + "\n").encode())
                     print("%s:%s hat Daten übertragen" % (clientAddress[0], clientAddress[1]))
                     MyRawWriteFile = open("Daten\Work\Raw.txt", "a")  # Daten zwischenspeichern
                     MyRawWriteFile.write(rawData)
