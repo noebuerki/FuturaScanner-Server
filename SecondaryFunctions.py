@@ -93,7 +93,6 @@ def createBackup():
     MyRawBackupFile.close()
     MyFinalBackupFile.close()
     sleep(2)
-    print("Das Backup wurde erfolgeich erstellt")
 
 
 # Daten wiederherstellen

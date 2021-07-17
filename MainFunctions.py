@@ -43,14 +43,14 @@ def startServer():
                 rawData = dataFromClient.decode()
                 if rawData == "100":
                     clientConnected.send("101\n".encode())
-                    print("%s:%s hat die Verbindung getestet" % (clientAddress[0], clientAddress[1]))
                 else:
-
+                    createBackup()
+                    print("Backup erstellt")
                     clientConnected.send(("200;" + str(rawData.count("\n")) + "\n").encode())
-                    print("%s:%s hat Daten übertragen" % (clientAddress[0], clientAddress[1]))
                     MyRawWriteFile = open("Daten\Work\Raw.txt", "a")  # Daten zwischenspeichern
                     MyRawWriteFile.write(rawData)
                     MyRawWriteFile.flush()
+                    print(str(rawData.count("\n")) + " Datensätze gespeichert")
                     MyRawWriteFile.close()
             except socket.timeout:
                 pass
@@ -138,6 +138,7 @@ def backupAssistant():
         if state == "1":
             print("\nDas Backup wird erstellt\n")
             createBackup()
+            print("Das Backup wurde erfolgeich erstellt")
         if state == "2":
             success = restoreBackup()
             if success == False:
