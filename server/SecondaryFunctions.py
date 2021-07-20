@@ -82,8 +82,8 @@ def createBackup():
     # Daten kopieren
     MyRawBackupFile = open(Raw_Backup_File_Name, "w")
     MyFinalBackupFile = open(Output_Backup_File_Name, "w")
-    MyRawReadFile = open("Daten\Work\Raw.txt")
-    MyFinalReadFile = open("Daten\Work\Output.txt")
+    MyRawReadFile = open("../Daten/Work/Raw.txt")
+    MyFinalReadFile = open("../Daten/Work/Output.txt")
     MyRawData = MyRawReadFile.read()
     MyFinalData = MyFinalReadFile.read()
     MyRawBackupFile.write(MyRawData)
@@ -100,7 +100,7 @@ def restoreBackup():
     count = 1
     files = []
     print(" ")
-    for file in os.listdir("Daten\Backup\History\\"):
+    for file in os.listdir("../Daten/Backup/History\\"):
         file = file.replace(".txt", "")
         files.append(file)
         print(count, file)
@@ -108,12 +108,12 @@ def restoreBackup():
     Selector = int(input("Welches Backup (Zeitpunkt) soll wiederhergestellt werden (1 bis " + str(count - 1) + "): "))
     if Selector >= 1 and Selector <= count - 1:
         DateAndTime = files[Selector - 1]
-        for file in os.listdir("Daten\Backup\\"):
+        for file in os.listdir("../Daten/Backup\\"):
             if DateAndTime in file:
                 MyRawBackupFile = open("Daten\Backup\Raw_Backup_" + DateAndTime + ".txt")
                 MyFinalBackupFile = open("Daten\Backup\Output_Backup_" + DateAndTime + ".txt")
-                MyRawWriteFile = open("Daten\Work\Raw.txt", "w")
-                MyFinalWriteFile = open("Daten\Work\Output.txt", "w")
+                MyRawWriteFile = open("../Daten/Work/Raw.txt", "w")
+                MyFinalWriteFile = open("../Daten/Work/Output.txt", "w")
                 MyRawBackupData = MyRawBackupFile.read()
                 MyFinalBackupData = MyFinalBackupFile.read()
                 MyRawWriteFile.write(MyRawBackupData)

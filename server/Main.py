@@ -1,4 +1,4 @@
-from MainFunctions import *
+from server.PrimaryFunctions import *
 
 Running = True
 

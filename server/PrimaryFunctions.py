@@ -1,7 +1,7 @@
 import os.path
 import socket
 
-from SecondaryFunctions import *
+from server.SecondaryFunctions import *
 
 tryScore = 0
 inputsData = ["1", "2", "X", "x"]
@@ -10,19 +10,19 @@ Interrupt = False
 
 # Generiert Ausgabefiles, wenn nicht vorhanden
 def fileGenerator():
-    if not os.path.isdir("Daten"):
-        os.mkdir("Daten")
-    if not os.path.isdir("Daten\Backup"):
-        os.mkdir("Daten\Backup")
-    if not os.path.isdir("Daten\Backup\History"):
-        os.mkdir("Daten\Backup\History")
-    if not os.path.isdir("Daten\Work"):
-        os.mkdir("Daten\Work")
+    if not os.path.isdir("../Daten"):
+        os.mkdir("../Daten")
+    if not os.path.isdir("../Daten/Backup"):
+        os.mkdir("../Daten/Backup")
+    if not os.path.isdir("../Daten/Backup/History"):
+        os.mkdir("../Daten/Backup/History")
+    if not os.path.isdir("../Daten/Work"):
+        os.mkdir("../Daten/Work")
     if not os.path.isfile("Daten\Raw.txt"):
-        CreateRaw = open("Daten\Work\Raw.txt", "w+")
+        CreateRaw = open("../Daten/Work/Raw.txt", "w+")
         CreateRaw.close()
     if not os.path.isfile("Daten\Output.txt"):
-        CreateFinal = open("Daten\Work\Output.txt", "w+")
+        CreateFinal = open("../Daten/Work/Output.txt", "w+")
         CreateFinal.close()
 
 
@@ -47,7 +47,7 @@ def startServer():
                     createBackup()
                     print("Backup erstellt")
                     clientConnected.send(("200;" + str(rawData.count("\n")) + "\n").encode())
-                    MyRawWriteFile = open("Daten\Work\Raw.txt", "a")  # Daten zwischenspeichern
+                    MyRawWriteFile = open("../Daten/Work/Raw.txt", "a")  # Daten zwischenspeichern
                     MyRawWriteFile.write(rawData)
                     MyRawWriteFile.flush()
                     print(str(rawData.count("\n")) + " Datensätze gespeichert")
@@ -67,7 +67,7 @@ def startServer():
 
 # Ausgeben der Rohdaten
 def printRawData():
-    MyRawReadFile = open("Daten\Work\Raw.txt")
+    MyRawReadFile = open("../Daten/Work/Raw.txt")
     for Line in MyRawReadFile:
         LineList = Line.split(";")
         FullNummerList = list(LineList[4])
@@ -83,8 +83,8 @@ def printRawData():
 def convertRawData():
     print("\nDaten werden konvertiert")
     global inputsconfirmation
-    MyRawReadFile = open("Daten\Work\Raw.txt", "r")
-    MyFinalWriteFile = open("Daten\Work\Output.txt", "a")
+    MyRawReadFile = open("../Daten/Work/Raw.txt", "r")
+    MyFinalWriteFile = open("../Daten/Work/Output.txt", "a")
     Date = formatDate()
     Time = str(datetime.datetime.now().strftime("%H:%M:%S"))
     MyFinalWriteFile.write("RT00\n1\t\t" + Date + "\t" + Time + "\t2\t\nRT38\n")  # Schreibt Header ins File
@@ -104,7 +104,7 @@ def convertRawData():
     MyFinalWriteFile.flush()
     MyRawReadFile.close()  # Alle Dateien schliessen
     MyFinalWriteFile.close()
-    MyRawWriteFile = open("Daten\Work\Raw.txt", "w")
+    MyRawWriteFile = open("../Daten/Work/Raw.txt", "w")
     MyRawWriteFile.write("")
     MyRawWriteFile.flush()
     MyRawWriteFile.close()
@@ -114,7 +114,7 @@ def convertRawData():
 
 # Daten in eigenes File speichern
 def safeDataToRemoteFile():
-    MyFinalReadFile = open("Daten\Work\Output.txt", "r")
+    MyFinalReadFile = open("../Daten/Work/Output.txt", "r")
     transferData = MyFinalReadFile.read()
     MyFinalReadFile.close()
     nameRaw = input("Geben Sie den Namen der Zieldatei ein: ")
