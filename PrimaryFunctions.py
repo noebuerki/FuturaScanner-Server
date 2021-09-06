@@ -4,8 +4,6 @@ from os import system, name
 
 from SecondaryFunctions import *
 
-Interrupt = False
-
 
 def generateFiles():
     if not os.path.isdir("data"):
@@ -94,7 +92,8 @@ def convertRawData():
             numberArray.remove("\n")
             number = "".join(numberArray)
             outputFile.write(
-                lineArray[0] + "\t0\t" + lineArray[1] + "\t" + lineArray[2] + "\t" + lineArray[3] + "\t" + number + "\t1,00\t0\t0\t\t0\t0\t0\t0\t0\t\t\n")
+                lineArray[0] + "\t0\t" + lineArray[1] + "\t" + lineArray[2] + "\t" + lineArray[
+                    3] + "\t" + number + "\t1,00\t0\t0\t\t0\t0\t0\t0\t0\t\t\n")
 
         outputFile.write("\n")
 
