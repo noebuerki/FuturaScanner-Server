@@ -73,7 +73,10 @@ def startServer():
 
 
 def convertRawData():
-    print("\nDaten werden konvertiert...")
+
+    createBackup()
+    print("\nBackup erstellt")
+    print("Daten werden konvertiert...")
 
     valuesFile = open("data/cache/values.txt", "r")
 
