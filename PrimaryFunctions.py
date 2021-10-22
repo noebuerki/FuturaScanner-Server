@@ -33,7 +33,7 @@ def startServer():
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((socket.gethostbyname(socket.gethostname()), 9090))
     serverSocket.listen()
-    serverSocket.settimeout(1)
+    serverSocket.settimeout(1500)
 
     print("Der Server ist erfolgreich auf der Ip " + str(socket.gethostbyname(socket.gethostname())) + " gestartet"
                                                                                                        "\nZum beenden: CTRL + C\n")
@@ -42,16 +42,31 @@ def startServer():
         try:
             try:
                 (connectedClient, clientAddress) = serverSocket.accept()
-                data = connectedClient.recv(70000)
-                data = data.decode()
+                data = connectedClient.recv(14600).decode()
 
-                if data == "100":
-                    connectedClient.send("101\n".encode())
+                if data == "ConnectionCheck-Request":
+                    connectedClient.send("ConnectionCheck-Reply\n".encode())
                 else:
                     createBackup()
                     print("Backup erstellt")
 
-                    connectedClient.send(("200;" + str(data.count("\n")) + "\n").encode())
+                    deliveryFinished = False
+
+                    data = ""
+                    delivery = 0
+
+                    while not deliveryFinished:
+                        partialData = connectedClient.recv(14600).decode()
+
+                        if partialData == "DeliveryReport":
+                            connectedClient.send((str(delivery) + ";" + str(data.count("\n")) + "\n").encode())
+                            connectedClient.close()
+                            deliveryFinished = True
+                            continue
+
+                        delivery += 1
+                        data += partialData
+                        connectedClient.send(("Delivery:" + str(delivery) + "\n").encode())
 
                     valuesFile = open("data/cache/values.txt", "a")
                     valuesFile.write(data)
