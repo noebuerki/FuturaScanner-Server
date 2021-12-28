@@ -46,6 +46,7 @@ def startServer():
 
                 if data == "ConnectionCheck-Request":
                     connectedClient.send("ConnectionCheck-Reply\n".encode())
+                    connectedClient.close()
                 else:
                     createBackup()
                     print("Backup erstellt")
